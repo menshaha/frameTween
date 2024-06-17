@@ -1,0 +1,53 @@
+local tweenService = game:GetService('TweenService')
+
+local module = {}
+
+function module.tweenCorner(frame, value, tweenTime, easingStyle)
+	local findCorner = false
+	local corner = nil
+	for i,v in pairs(frame:GetChildren()) do
+		if v:IsA('UICorner') then
+			findCorner = true
+			corner = v
+			
+			break
+		end
+	end
+	
+	if not corner then
+		corner = Instance.new('UICorner', frame)
+		corner.CornerRadius = UDim.new(0, 0)
+	end
+	
+	tweenService:Create(corner, TweenInfo.new(tweenTime, Enum.EasingStyle[easingStyle], Enum.EasingDirection.Out), { CornerRadius = UDim.new(value, 0) }):Play()
+end
+
+function module.tweenUIStroke(frame : Frame, value, tweenTime, easingStyle)
+	local findstroke = false
+	local stroke = nil
+	for i,v in pairs(frame:GetChildren()) do
+		if v:IsA('UIStroke') then
+			findstroke = true
+			stroke = v
+
+			break
+		end
+	end
+
+	if not stroke then
+		stroke = Instance.new('UIStroke', frame)
+		stroke.Thickness = 0
+	end
+
+	tweenService:Create(stroke, TweenInfo.new(tweenTime, Enum.EasingStyle[easingStyle], Enum.EasingDirection.Out), { Thickness = value }):Play()
+end
+
+function module.rotateFrame(frame, value, tweenTime, easingStyle)
+	tweenService:Create(frame, TweenInfo.new(tweenTime, Enum.EasingStyle[easingStyle], Enum.EasingDirection.Out), { Rotation = value }):Play()
+end
+
+function module.toPosition(frame, value, tweenTime, easingStyle)
+	tweenService:Create(frame, TweenInfo.new(tweenTime, Enum.EasingStyle[easingStyle], Enum.EasingDirection.Out), { Position = value }):Play()
+end
+
+return module
